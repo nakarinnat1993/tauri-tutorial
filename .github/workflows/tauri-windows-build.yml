@@ -36,7 +36,7 @@ jobs:
         run: yarn build
 
       - name: 🔧 Install Tauri CLI
-        run: yarn dlx @tauri-apps/cli@latest
+        run: npx @tauri-apps/cli@latest
 
       - name: 🏗️ Build Tauri App for Windows
         run: yarn tauri build
