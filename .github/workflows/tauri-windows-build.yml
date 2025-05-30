@@ -1,0 +1,50 @@
+name: Tauri Build - Windows
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🦀 Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: 📦 Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📥 Install dependencies
+        run: |
+          corepack enable
+          yarn install --frozen-lockfile
+
+      - name: 🧱 Build Frontend
+        run: yarn build
+
+      - name: 🔧 Install Tauri CLI
+        run: yarn dlx @tauri-apps/cli@latest
+
+      - name: 🏗️ Build Tauri App for Windows
+        run: yarn tauri build
+
+      - name: 📤 Upload installer (.exe / .msi)
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-tauri-installer
+          path: |
+            src-tauri/target/release/bundle/msi/*.msi
+            src-tauri/target/release/bundle/nsis/*.exe
