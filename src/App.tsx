@@ -15,6 +15,7 @@ function App() {
   return (
     <main className="container">
       <h1>Welcome to Tauri + React</h1>
+      <h3>ENV TESTING: {import.meta.env.VITE_ENV_TESTING}</h3>
 
       <div className="row">
         <a href="https://vitejs.dev" target="_blank">

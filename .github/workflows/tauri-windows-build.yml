@@ -17,6 +17,10 @@ jobs:
       - name: 🛎️ Checkout Repository
         uses: actions/checkout@v4
 
+      - name: 📄 Create .env
+        run: |
+          echo "VITE_ENV_TESTING=${{ secrets.VITE_ENV_TESTING }}" >> .env
+
       - name: 🦀 Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
